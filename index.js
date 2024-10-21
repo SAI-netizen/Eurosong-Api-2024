@@ -1,8 +1,27 @@
 
 // Importeren espress module in node_modules
 const express = require('express'); 
+const mysql = require('mysql2/promise');
+
+
+
 //aanmakken espress app
 const app = express(); 
+
+const connect = async () => {
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'root', 
+        database: 'eurosongdb',
+        port: 3306
+      });
+
+      console.log(connection); 
+
+}; 
+
+connect(); 
 
 //endpoints
 app.get('/', (req, res) => {
