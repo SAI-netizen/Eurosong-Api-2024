@@ -1,27 +1,13 @@
 
 // Importeren espress module in node_modules
 const express = require('express'); 
-const mysql = require('mysql2/promise');
-
-
+const Database = require('./classes/database.js'); 
 
 //aanmakken espress app
 const app = express(); 
 
-const connect = async () => {
-    const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root', 
-        database: 'eurosongdb',
-        port: 3306
-      });
 
-      console.log(connection); 
-
-}; 
-
-connect(); 
+const db = new Database(); 
 
 //endpoints
 app.get('/', (req, res) => {
@@ -30,12 +16,25 @@ app.get('/', (req, res) => {
 
 
 app.get('/api/artists', (req, res) => {
-    res.send(
-        [
-            "JB",
-            "Beyonce",
-        ]
-    ); 
+    const db = new Database(); 
+    db.getQuery('Select * FROM artists').then((artists) => {
+        res.send(artists); 
+    }); 
+}); 
+
+app.get('/api/songs', (req, res) => {
+    const db = new Database(); 
+    db.getQuery(`
+        SELECT song_id, s.name AS songname, a.name AS artistname
+FROM 
+	songs AS s 
+		INNER JOIN 
+			artists AS a
+				ON 
+					s.artist_id = a.artist_id; 
+`).then((songs) => {
+        res.send(songs); 
+    }); 
 }); 
 
 // Starten server en op welke port moet server luisteren 
