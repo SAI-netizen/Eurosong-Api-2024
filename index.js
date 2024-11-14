@@ -13,7 +13,7 @@ const db = new Database();
 app.get('/', (req, res) => {
     res.send('Hello World'); 
 }); 
-
+//negeer dit 
 
 app.get('/api/artists', (req, res) => {
     const db = new Database(); 
