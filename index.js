@@ -1,6 +1,6 @@
 
 // Importeren espress module in node_modules
-const express = require('express'); 
+const express = require ('express'); 
 const Database = require('./classes/database.js'); 
 
 //aanmakken espress app
